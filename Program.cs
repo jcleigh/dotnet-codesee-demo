@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<GetWeatherForecast>();
+builder.Services.AddTransient<GetWeatherForecastById>();
 
 var app = builder.Build();
 
@@ -19,11 +20,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var getWeatherForecast = app.Services.GetRequiredService<GetWeatherForecast>();
-    return getWeatherForecast.Execute(new GetWeatherForecast.Request());
-})
+app.MapGet("/weatherforecast", (GetWeatherForecast getWeatherForecast) =>
+    {
+        var response = getWeatherForecast.Execute(new GetWeatherForecast.Request());
+        return response;
+    })
 .WithName("GetWeatherForecast");
+
+app.MapGet("/weatherforecast/{id}", (GetWeatherForecastById getWeatherForecastById, int id) =>
+    {
+        var response = getWeatherForecastById.Execute(new GetWeatherForecastById.Request(id));
+        return response;
+    })
+.WithName("GetWeatherForecastById");
 
 app.Run();

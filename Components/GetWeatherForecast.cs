@@ -1,4 +1,6 @@
-﻿namespace dotnet_codesee_demo.Components
+﻿using dotnet_codesee_demo.Models;
+
+namespace dotnet_codesee_demo.Components
 {
     public class GetWeatherForecast
     {
@@ -6,8 +8,10 @@
 
         public class Response
         {
-            public WeatherForecast[] Forecast { get; set; }
+            public WeatherForecast.Forecast[] Forecast { get; set; }
         }
+
+        public GetWeatherForecast() { }
 
         public Response Execute(Request request)
         {
@@ -17,7 +21,7 @@
             };
 
             var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
+                    new WeatherForecast.Forecast
                     (
                         DateTime.Now.AddDays(index),
                         Random.Shared.Next(-20, 55),
@@ -31,9 +35,6 @@
             };
         }
 
-        public record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-        {
-            public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-        }
+        
     }
 }

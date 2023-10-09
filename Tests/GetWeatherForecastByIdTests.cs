@@ -1,7 +1,7 @@
 ﻿using dotnet_codesee_demo.Components;
 using Xunit;
 
-namespace dotnet_codesee_demo.Tests
+namespace dotnet_codesee_demo
 {
     public class GetWeatherForecastByIdTests
     {

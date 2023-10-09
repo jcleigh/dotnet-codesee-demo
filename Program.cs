@@ -8,6 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<GetWeatherForecast>();
 builder.Services.AddTransient<GetWeatherForecastById>();
+builder.Services.AddTransient<ConvolutedComponent>();
+builder.Services.AddTransient<GetThing>();
 
 var app = builder.Build();
 
@@ -33,5 +35,13 @@ app.MapGet("/weatherforecast/{id}", (GetWeatherForecastById getWeatherForecastBy
         return response;
     })
 .WithName("GetWeatherForecastById");
+
+app.MapGet("/convoluted", (ConvolutedComponent convoluted, bool? getWeatherForecast, int? id) =>
+    {
+        var getForecast = getWeatherForecast ?? false;
+        var response = convoluted.Execute(new ConvolutedComponent.Request(getForecast, id));
+        return response;
+    })
+.WithName("Convoluted");
 
 app.Run();
